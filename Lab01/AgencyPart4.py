@@ -1,31 +1,31 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import asyncio, random
-
-temp=18
+temp=10
 heater=False
+weather="cold"
 
 class Agent():
-    async def run(Self):
+    async def run(self):
         global heater
         while True:
             if temp < 20:
                 heater = True
                 print("heater is running")
             else:
-                heater = False
-                print("heater has switched off")
+                heater =False
+                print("heater has turned off")
             await asyncio.sleep(1)
 
 async def environment():
+    global temp, heater, weather
     while True:
-        global temp, heater
-        #temp = random.randrange(18,22)
-        if heater:
-            temp += random.randint(1,3)
-        else:
-            temp -= random.randint(1,1)
-        print(f"[Environment] Temp: {temp}")
+        if weather == "cold":
+            if heater :
+                temp += random.randint(1,3)
+            else:
+                temp -= random.randint(1,2)
+        print(f"[environment] temp:{temp}")
         await asyncio.sleep(1)
 
 async def main():
