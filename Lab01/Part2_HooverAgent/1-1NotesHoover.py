@@ -2,19 +2,19 @@
 
 import asyncio, random
 
-location = ?
-grid = ?
+#location = ?
+#grid = ?
 
 class Agent():
     async def run(self):
         global location, grid
         while True:
-            ?
+            #?
             await asyncio.sleep(1)
 
 async def environment():
     while True:
-        ?
+        #?
         await asyncio.sleep(1)
 
 async def main():
