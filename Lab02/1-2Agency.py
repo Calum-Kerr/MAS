@@ -20,7 +20,7 @@ class Agent():
         if self.player == 'x':
             pos=random.choice(unplayed)
         else :
-            center=[4]
+            center=[4] # but if x places in 4 first the its a definite win for x.
             sides=[1,5,7,3]
             edges=[0,2,8,6]
             pos=None
