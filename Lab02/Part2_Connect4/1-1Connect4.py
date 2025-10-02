@@ -26,7 +26,7 @@ class Agent():
         if self.player=='x':
             pos=random.choice(valid_moves)
         else :
-            center=[38,31,24,17,10,3]
+            center=[38,31]
             pos=None
             for preferred in [center]:
                 available=[p for p in preferred if p in valid_moves]
