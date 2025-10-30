@@ -10,7 +10,7 @@ class Agent():
         while True:
             all_blocks=['a','b','c']
             block_to_move=random.choice(all_blocks)
-            destination=random.choice([b for b in all_blocks if b !=block_to_move])
+            destination=random.choice(['table']+[b for b in all_blocks if b !=block_to_move])
             block_state[block_to_move]=destination
             print(f"moved: {block_to_move} onto {destination}")
             await asyncio.sleep(1)
