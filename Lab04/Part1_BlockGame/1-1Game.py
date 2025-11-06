@@ -8,8 +8,8 @@ turn=0
 
 blocks={'A':'table', 'B':'A', 'C':'B'}
 
-goal_agent_x=
-goal_agent_y=
+goal_agent_x={'A':'table','B':'A','C':'B'}
+goal_agent_y={'A':'table','C':'B','A':'C'}
 
 class Agent():
     def __init__(self,player,goal):
@@ -17,14 +17,24 @@ class Agent():
         self.uid=uuid.uuid4()
         self.player=player
         self.goal=goal
-
     def is_clear(self,block):
-
+        return block not in blocks.value() or all(blocks[b]!=block for b in blocks)
     def act(self):
-
+        for block, goal_location in self.goal.items():
+            if blocks[block]!=goal_location and self.is_clear(block):
+                blocks[block]=goal_location
     async def run(self):
-        
-
+        while True:
+            if self.player=='x'and turn %2==0:
+                self.act()
+                environment()
+            elif self.player=='y' and turn %2==1:
+                self.act()
+                environment()
+            try:
+                await asyncio.sleep(1)
+            except asyncio.cancelledError:
+                print("stopping all agents and cleaning up")
 
 def environment():
     global turn
@@ -42,8 +52,19 @@ def environment():
         stop_agents()
     turn = turn+1
 
+def print_blocks():
+    print(f"blocks agent: {blocks}")
+    print(f"agent x goal (abc stack): {goal_agent_x}")
+    print(f"agent y goal (bca stack): {goal_agent_y}")
+
 def check_status():
     global winner, won
+    if blocks==goal_agent_x:
+        winner='x'
+        won=True
+    elif blocks==goal_agent_y:
+        winner='y'
+        won=True
 
 def stop_agents():
     tasks=asyncio.all_tasks()
