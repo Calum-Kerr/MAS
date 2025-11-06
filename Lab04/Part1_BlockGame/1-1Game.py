@@ -9,7 +9,7 @@ turn=0
 blocks={'A':'table', 'B':'table','C':'table'}
 
 goal_agent_x={'A':'table','B':'A','C':'B'}
-goal_agent_y={'B':'table','C':'B','A':'C'}
+goal_agent_y={'B':'A','C':'table','C':'B','A':'C'}
 
 class Agent():
     def __init__(self,player,goal):
