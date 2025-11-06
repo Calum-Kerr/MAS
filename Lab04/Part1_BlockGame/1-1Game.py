@@ -6,10 +6,10 @@ won=False
 winner=None
 turn=0
 
-blocks={'A':'table', 'B':'A', 'C':'B'}
+blocks={'A':'table', 'B':'table','C':'table'}
 
 goal_agent_x={'A':'table','B':'A','C':'B'}
-goal_agent_y={'A':'table','C':'B','A':'C'}
+goal_agent_y={'B':'table','C':'B','A':'C'}
 
 class Agent():
     def __init__(self,player,goal):
@@ -18,23 +18,25 @@ class Agent():
         self.player=player
         self.goal=goal
     def is_clear(self,block):
-        return block not in blocks.value() or all(blocks[b]!=block for b in blocks)
+        return block not in blocks.values() or all(blocks[b]!=block for b in blocks)
     def act(self):
         for block, goal_location in self.goal.items():
             if blocks[block]!=goal_location and self.is_clear(block):
+                if goal_location!='table' and not self.is_clear(goal_location):
+                    continue
+                opponent_goal=goal_agent_y if self.player=='x'else goal_agent_x
+                if blocks[block]==opponent_goal.get(block):
+                    continue
                 blocks[block]=goal_location
+                return True
+        return False
     async def run(self):
-        while True:
-            if self.player=='x'and turn %2==0:
-                self.act()
-                environment()
-            elif self.player=='y' and turn %2==1:
-                self.act()
-                environment()
+        while self.alive:
             try:
                 await asyncio.sleep(1)
-            except asyncio.cancelledError:
+            except asyncio.CancelledError:
                 print("stopping all agents and cleaning up")
+                raise
 
 def environment():
     global turn
@@ -42,6 +44,12 @@ def environment():
     print("turn " +str(turn))
     print_blocks()
     check_status()
+    if turn%2==0:
+        agent_x.act()
+        print(f"agent x moved")
+    else:
+        agent_y.act()
+        print(f"Agent y moved")
     if (won):
         print()
         print('Agent '+winner+' has won!')
@@ -72,11 +80,15 @@ def stop_agents():
         task.cancel()
 
 async def main():
+    global agent_x, agent_y
     agent_x=Agent('x', goal_agent_x)
     agent_y=Agent('y', goal_agent_y)
-    environment()
+    async def env_loop():
+        while True:
+            environment()
+            await asyncio.sleep(1)
     try:
-        await asyncio.gather(agent_x.run(), agent_y.run())
+        await asyncio.gather(agent_x.run(), agent_y.run(), env_loop())
     except asyncio.CancelledError:
         print("Agents laid to rest..")
 
