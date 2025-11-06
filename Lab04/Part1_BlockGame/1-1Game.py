@@ -19,16 +19,21 @@ class Agent():
         self.goal=goal
     def is_clear(self,block):
         return block not in blocks.values() or all(blocks[b]!=block for b in blocks)
+    def can_move_to(self,block,destination):
+        if not self.is_clear(block):
+            return False
+        if destination!='table' and not self.is_clear(destination):
+            return False
+        return True
     def act(self):
         for block, goal_location in self.goal.items():
-            if blocks[block]!=goal_location and self.is_clear(block):
-                if goal_location!='table' and not self.is_clear(goal_location):
-                    continue
-                opponent_goal=goal_agent_y if self.player=='x'else goal_agent_x
-                if blocks[block]==opponent_goal.get(block):
-                    continue
-                blocks[block]=goal_location
-                return True
+            if blocks[block]!=goal_location:
+                if self.can_move_to(block, goal_location):
+                    opponent_goal=goal_agent_y if self.player=='x'else goal_agent_x
+                    if blocks[block]==opponent_goal.get(block):
+                        continue
+                    blocks[block]=goal_location
+                    return True
         return False
     async def run(self):
         while self.alive:
