@@ -20,6 +20,25 @@ class Directory():
     
 directory=Directory()
 
+class MessageSystem():
+    def __init__(self):
+        self._queues={}
+    def create_queue(self,uid):
+        self._queues[uid]=[]
+    def send(self,recipient_uid,message):
+        if recipient_uid in self._queues:
+            self._queues[recipient_uid].append(message)
+    def receive(self,uid):
+        if uid in self._queues and len(self._queues[uid])>0:
+            return self._queues[uid].pop(0)
+        return None
+    def receive_all(self,uid):
+        if uid in self._queues:
+            messages=self._queues[uid].copy()
+            self._queues[uid]=[]
+            return messages
+        return []
+
 class Agent():
     def __init__(self,name=None):
         self.uid=uuid.uuid4()
