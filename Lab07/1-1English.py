@@ -23,6 +23,8 @@ def english_auction(starting_price, agents):
         round_num += 1
         bidding=False
         for agent in agents:
+            if agent==current_winner:
+                continue
             bid = agent.make_bid(current_price)
             if bid:
                 current_price = bid
