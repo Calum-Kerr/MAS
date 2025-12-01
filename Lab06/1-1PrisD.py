@@ -22,7 +22,14 @@ class Agent():
             await asyncio.sleep(1)
 
 def play_game(strategy1, strategy2):
+    action1 = strategy1.choose_action()
+    action2 = strategy2.choose_action()
     payoff1, payoff2 = payoff_matrix[strategy1][strategy2]
+    strategy1.score += payoff1
+    strategy2.score += payoff2
+    print(f"agent1 chose {action1} and agent2 chose {action2}")
+    print(f"agent1 score: {strategy1.score} and agent2 score: {strategy2.score}")
+    print()
     return payoff1, payoff2
 
 async def main():
