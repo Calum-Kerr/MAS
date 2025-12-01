@@ -1,22 +1,23 @@
 #!/usr/bi/env python3
 
 
-import asyncio,uuid
+import asyncio,uuid,random
 
 payoff_matrix={'defect':{'defect':(2,2),'cooperate':(5,0)},'cooperate':{'defect':(0,5),'cooperate':(3,3)}}
 
 class Agent():
-    def __init__(self,name=None):
+    def __init__(self,name=None, strategy=random):
         self.uid=uuid.uuid4()
         self.name=name if name else str(self.uid)
-        self.alive=True
+        self.strategy=strategy
+        self.score=0
     async def run(self):
         while self.alive:
             print(f"agent{self.name} taking a turn")
             await asyncio.sleep(1)
 
-def play_game(stratagy1, strategy2):
-    payoff1, payoff2 = payoff_matrix[stratagy1][strategy2]
+def play_game(strategy1, strategy2):
+    payoff1, payoff2 = payoff_matrix[strategy1][strategy2]
     return payoff1, payoff2
 
 async def main():
