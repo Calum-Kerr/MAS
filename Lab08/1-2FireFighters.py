@@ -33,6 +33,15 @@ class Environment():
             self.grid[y][x]=FIRE
         return len(new_fires)
 
+class Agent():
+    def __init__(self,name,x,y):
+        self.name=name
+        self.x=x
+        self.y=y
+        self.busy=False
+    def put_out_fire(self,env):
+        
+
 def main():
     env=Environment(10,10)
     env.start_fire(5,5)
