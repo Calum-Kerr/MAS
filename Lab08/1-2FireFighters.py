@@ -18,3 +18,11 @@ class Environment():
     def start_fire(self,x,y):
         if 0<=x<self.width and 0<=y<self.height:
             self.grid[y][x]=FIRE
+
+def main():
+    env=Environment(10,10)
+    env.start_fire(5,5)
+    env.display()
+
+if __name__=="__main__":
+    main()
