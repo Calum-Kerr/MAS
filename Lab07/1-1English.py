@@ -32,6 +32,8 @@ def english_auction(starting_price, agents):
     return current_winner, current_price
 
 def main():
+    agents = [Agent("calum", 100), Agent("simon", 150), Agent("jim", 120)]
+    english_auction(10,agents)
 
 if __name__=="__main__":
-    asyncio.run(main())
+    main()
