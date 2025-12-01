@@ -38,7 +38,7 @@ class Environment():
                     for nx,ny in neighbours:
                         if 0<=nx<self.width and 0<=ny<self.height:
                             if self.grid[ny][nx]==EMPTY:
-                                if random.random()<0.5:
+                                if random.random()<0.2:
                                     new_fires.append((nx,ny))
         for x,y in new_fires:
             self.grid[y][x]=FIRE
@@ -50,6 +50,15 @@ class Agent():
         self.x=x
         self.y=y
         self.busy=False
+        self.inbox=[]
+    def count_nearby_fires(self,env):
+        count=0
+        for y in range(self.y-1,self.y+2):
+            for x in range(self.x-1,self.x+2):
+                if 0<=x<env.width and 0<=y<env.height:
+                    if env.grid[y][x]==FIRE:
+                        count+=1
+        return count
     def put_out_fire(self,env):
         if env.grid[self.y][self.x]==FIRE:
             env.grid[self.y][self.x]=EMPTY
