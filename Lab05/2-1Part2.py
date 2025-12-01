@@ -47,6 +47,11 @@ class Agent():
         self.name=name if name else str(self.uid)
         self.alive=True
         directory.register(self)
+        messages.create_queue(self.uid)
+    def send(self,recipient_uid,message):
+        messages.send(recipient_uid,message)
+    def check_messages(self):
+        return messages.receive_all(self.uid)
     async def run(self):
         while self.alive:
             print(f"agent{self.name} taking a turn")
