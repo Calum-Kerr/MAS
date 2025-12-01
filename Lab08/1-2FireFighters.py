@@ -70,6 +70,15 @@ class Agent():
                         min_dist=dist
                         nearest_fire=(x,y)
         return nearest_fire
+    def move_towards(self,x,y,env):
+        if self.x<x:
+            self.move_to(self.x+1,self.y,env)
+        elif self.x>x:
+            self.move_to(self.x-1,self.y,env)
+        elif self.y<y:
+            self.move_to(self.x,self.y+1,env)
+        elif self.y>y:
+            self.move_to(self.x,self.y-1,env)
 
 def main():
     env=Environment(10,10)
