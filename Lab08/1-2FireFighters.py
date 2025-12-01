@@ -64,7 +64,14 @@ def main():
     env=Environment(10,10)
     env.start_fire(5,5)
     agents=[Agent("agent0",0,0),Agent("agent1",9,0),Agent("agent2",0,9)]
-    env.display(agents)
+    for turn in range(10):
+        env.display(agents)
+        for agent in agents:
+            fire=agent.find_fire(env)
+            if fire:
+                agent.move_to(fire[0],fire[1],env)
+                agent.put_out_fire(env)
+        env.spread_fires()
 
 if __name__=="__main__":
     main()
