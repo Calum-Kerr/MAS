@@ -11,10 +11,21 @@ class Environment():
         self.width=width
         self.height=height
         self.grid=[[EMPTY for _ in range(width)] for _ in range(height)]
-    def display(self):
-        for row in self.grid:
-            print(''.join(row))
-        print()
+    def display(self,agents=None):
+        for y in range(self.height):
+            row=''
+            for x in range(self.width):
+                agent_here=False
+                if agents:
+                    for a in agents:
+                        if a.x==x and a.y==y:
+                            row+='A'
+                            agent_here=True
+                            break
+                if not agent_here:
+                    row+=self.grid[y][x]
+            print(row)
+
     def start_fire(self,x,y):
         if 0<=x<self.width and 0<=y<self.height:
             self.grid[y][x]=FIRE
@@ -52,10 +63,8 @@ class Agent():
 def main():
     env=Environment(10,10)
     env.start_fire(5,5)
-    for turn in range(5):
-        print(f"Turn {turn}")
-        env.display()
-        env.spread_fires()
+    agents=[Agent("agent0",0,0),Agent("agent1",9,0),Agent("agent2",0,9)]
+    env.display(agents)
 
 if __name__=="__main__":
     main()
