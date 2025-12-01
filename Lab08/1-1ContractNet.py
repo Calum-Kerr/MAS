@@ -14,7 +14,7 @@ class Agent():
     def __init__(self,name=None):
         self.uid=uuid.uuid4()
         self.name=name if name else str(self.uid)[:8]
-        num_skills=random.radint(1,3)
+        num_skills=random.randint(1,3)
         self.capabilities=random.sample(ALL_SKILLS, num_skills)
     def can_do(self,skill):
         return skill in self.capabilities
