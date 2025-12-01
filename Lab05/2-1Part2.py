@@ -39,6 +39,8 @@ class MessageSystem():
             return messages
         return []
 
+messages=MessageSystem()
+
 class Agent():
     def __init__(self,name=None):
         self.uid=uuid.uuid4()
