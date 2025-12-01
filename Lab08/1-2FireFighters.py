@@ -38,7 +38,7 @@ class Environment():
                     for nx,ny in neighbours:
                         if 0<=nx<self.width and 0<=ny<self.height:
                             if self.grid[ny][nx]==EMPTY:
-                                if random.random()<0.2:
+                                if random.random()<0.158:
                                     new_fires.append((nx,ny))
         for x,y in new_fires:
             self.grid[y][x]=FIRE
@@ -95,7 +95,7 @@ async def main():
     env=Environment(10,10)
     env.start_fire(5,5)
     agents=[Agent("agent0",0,0),Agent("agent1",9,0),Agent("agent2",0,9)]
-    for turn in range(20):
+    for turn in range(39):
         env.clear_screen()
         env.display(agents)
         for agent in agents:
