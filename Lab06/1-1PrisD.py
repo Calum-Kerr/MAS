@@ -24,7 +24,7 @@ class Agent():
 def play_game(strategy1, strategy2):
     action1 = strategy1.choose_action()
     action2 = strategy2.choose_action()
-    payoff1, payoff2 = payoff_matrix[strategy1][strategy2]
+    payoff1, payoff2 = payoff_matrix[action1][action2]
     strategy1.score += payoff1
     strategy2.score += payoff2
     print(f"agent1 chose {action1} and agent2 chose {action2}")
@@ -32,10 +32,12 @@ def play_game(strategy1, strategy2):
     print()
     return payoff1, payoff2
 
-async def main():
-    agent1=Agent("calum")
-    agent2=Agent("simon")
-    await asyncio.gather(agent1.run(),agent2.run())
+def main():
+    agent1=Agent("calum", strategy='cooperate')
+    agent2=Agent("simon", strategy='defect')
+    for _ in range(10):
+        play_game(agent1, agent2)
+    print("game over")
 
 if __name__=="__main__":
-    asyncio.run(main())
+    main()
