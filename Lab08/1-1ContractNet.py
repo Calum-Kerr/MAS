@@ -27,11 +27,18 @@ class Agent():
     def can_do(self,skill):
         return skill in self.capabilities
 
+def announce_task(manager,task,all_agents):
+        for agent in all_agents:
+            if agent.uid!=manager.uid:
+                agent.receive_message(f"task {task.id} requires {task.skill_required}")
+
 def main():
     agents=[Agent(f"agent{str(i)}") for i in range(10)]
     for agent in agents:
         print(f"{agent.name} can {agent.capabilities}")
+    manager=agents[0]
     task=Task('cooking hello fresh meals.. lol')
+    announce_task(manager,task,agents)
     print(f"task {task.id} requires {task.skill_required}")
     for agent in agents:
         if agent.can_do(task.skill_required):
