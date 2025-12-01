@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+import uuid,random
+
+ALL_SKILLS=['cooking hello fresh meals.. lol','cleaning the houuse (total dont use a robot for it)', 'driving (i was sideswiped by a police van)', 'writing (still shit at english though)']
+
+class Agent():
+    def __init__(self,name=None):
+        self.uid=uuid.uuid4()
+        self.name=name if name else str(self.uid)[:8]
+        num_skills=random.radint(1,3)
+        self.capabilities=random.sample(ALL_SKILLS, num_skills)
+
+def main():
+    agents=[Agent(f"agent{str(i)}") for i in range(10)]
+    for agent in agents:
+        print(f"{agent.name} can {agent.capabilities}")
+
+if __name__=="__main__":
+    main()
