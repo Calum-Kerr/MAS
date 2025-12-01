@@ -16,6 +16,8 @@ class Agent():
         self.name=name if name else str(self.uid)[:8]
         num_skills=random.radint(1,3)
         self.capabilities=random.sample(ALL_SKILLS, num_skills)
+    def can_do(self,skill):
+        return skill in self.capabilities
 
 def main():
     agents=[Agent(f"agent{str(i)}") for i in range(10)]
@@ -23,6 +25,10 @@ def main():
         print(f"{agent.name} can {agent.capabilities}")
     task=Task('cooking hello fresh meals.. lol')
     print(f"task {task.id} requires {task.skill_required}")
+    for agent in agents:
+        if agent.can_do(task.skill_required):
+            print(f"{agent.name} can do the task")
+    print("task complete")
 
 if __name__=="__main__":
     main()
