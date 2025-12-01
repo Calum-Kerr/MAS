@@ -30,8 +30,7 @@ class Agent():
 def announce_task(manager,task,all_agents):
         for agent in all_agents:
             if agent.uid!=manager.uid:
-                agent.receive_message(f"task {task.id} requires {task.skill_required}")
-
+                agent.receive_message({'type':'announce','task':task,'manager':manager})
 def main():
     agents=[Agent(f"agent{str(i)}") for i in range(10)]
     for agent in agents:
@@ -39,11 +38,10 @@ def main():
     manager=agents[0]
     task=Task('cooking hello fresh meals.. lol')
     announce_task(manager,task,agents)
-    print(f"task {task.id} requires {task.skill_required}")
     for agent in agents:
-        if agent.can_do(task.skill_required):
-            print(f"{agent.name} can do the task")
-    print("task complete")
+        msgs=agent.get_messages()
+        if msgs:
+            print(f"{agent.name} received {len(msgs)} message(s)")
 
 if __name__=="__main__":
     main()
