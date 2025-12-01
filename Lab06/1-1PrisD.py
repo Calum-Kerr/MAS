@@ -11,6 +11,11 @@ class Agent():
         self.name=name if name else str(self.uid)
         self.strategy=strategy
         self.score=0
+    def choose_action(self):
+        if self.strategy == random:
+            return random.choice(['defect','cooperate'])
+        else:
+            return self.strategy
     async def run(self):
         while self.alive:
             print(f"agent{self.name} taking a turn")
