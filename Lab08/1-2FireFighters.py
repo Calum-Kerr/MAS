@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import random
+import random,asyncio,os
 
 EMPTY='.'
 FIRE='F'
@@ -43,6 +43,8 @@ class Environment():
         for x,y in new_fires:
             self.grid[y][x]=FIRE
         return len(new_fires)
+    def clear_screen(self):
+        os.system('cls' if os.name=='nt' else 'clear')
 
 class Agent():
     def __init__(self,name,x,y):
