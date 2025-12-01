@@ -3,7 +3,7 @@
 
 import asyncio,uuid
 
-payoff_matrix={'defect':{},'cooperate':{}}
+payoff_matrix={'defect':{'defect':(2,2),'cooperate':(5,0)},'cooperate':{'defect':(0,5),'cooperate':(3,3)}}
 
 class Agent():
     def __init__(self,name=None):
@@ -14,6 +14,10 @@ class Agent():
         while self.alive:
             print(f"agent{self.name} taking a turn")
             await asyncio.sleep(1)
+
+def play_game(stratagy1, strategy2):
+    payoff1, payoff2 = payoff_matrix[stratagy1][strategy2]
+    return payoff1, payoff2
 
 async def main():
     agent1=Agent("calum")
