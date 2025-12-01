@@ -91,11 +91,12 @@ class Agent():
         elif self.y>y:
             self.move_to(self.x,self.y-1,env)
 
-def main():
+async def main():
     env=Environment(10,10)
     env.start_fire(5,5)
     agents=[Agent("agent0",0,0),Agent("agent1",9,0),Agent("agent2",0,9)]
-    for turn in range(10):
+    for turn in range(20):
+        env.clear_screen()
         env.display(agents)
         for agent in agents:
             fire=agent.find_fire(env)
@@ -103,6 +104,7 @@ def main():
                 agent.move_towards(fire[0],fire[1],env)
                 agent.put_out_fire(env)
         env.spread_fires()
+        await asyncio.sleep(0.4)
 
 if __name__=="__main__":
-    main()
+    asyncio.run(main())
