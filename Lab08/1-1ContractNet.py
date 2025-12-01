@@ -16,6 +16,14 @@ class Agent():
         self.name=name if name else str(self.uid)[:8]
         num_skills=random.randint(1,3)
         self.capabilities=random.sample(ALL_SKILLS, num_skills)
+        self.inbox=[]
+        self.busy=False
+    def receive_message(self,message):
+        self.inbox.append(message)
+    def get_messages(self):
+        messages=self.inbox.copy()
+        self.inbox=[]
+        return messages
     def can_do(self,skill):
         return skill in self.capabilities
 
