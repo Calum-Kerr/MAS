@@ -40,7 +40,14 @@ class Agent():
         self.y=y
         self.busy=False
     def put_out_fire(self,env):
-        
+        if env.grid[self.y][self.x]==FIRE:
+            env.grid[self.y][self.x]=EMPTY
+            return True
+        return False
+    def move_to(self,x,y,env):
+        if 0<=x<env.width and 0<=y<env.height:
+            self.x=x
+            self.y=y
 
 def main():
     env=Environment(10,10)
