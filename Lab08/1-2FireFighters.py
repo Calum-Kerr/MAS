@@ -59,6 +59,17 @@ class Agent():
         if 0<=x<env.width and 0<=y<env.height:
             self.x=x
             self.y=y
+    def find_fire(self,env):
+        nearest_fire=None
+        min_dist=float('inf')
+        for y in range(env.height):
+            for x in range(env.width):
+                if env.grid[y][x]==FIRE:
+                    dist=abs(x-self.x)+abs(y-self.y)
+                    if dist<min_dist:
+                        min_dist=dist
+                        nearest_fire=(x,y)
+        return nearest_fire
 
 def main():
     env=Environment(10,10)
@@ -69,7 +80,7 @@ def main():
         for agent in agents:
             fire=agent.find_fire(env)
             if fire:
-                agent.move_to(fire[0],fire[1],env)
+                agent.move_towards(fire[0],fire[1],env)
                 agent.put_out_fire(env)
         env.spread_fires()
 
