@@ -3,6 +3,8 @@
 
 import asyncio,uuid
 
+payoff_matrix={'defect':{},'cooperate':{}}
+
 class Agent():
     def __init__(self,name=None):
         self.uid=uuid.uuid4()
