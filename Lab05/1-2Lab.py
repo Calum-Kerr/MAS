@@ -17,12 +17,15 @@ class Directory():
         return self.agents.get(uid,None)
     def contains(self,uid):
         return uid in self.agents
+    
+directory=Directory()
 
 class Agent():
     def __init__(self,name=None):
         self.uid=uuid.uuid4()
         self.name=name if name else str(self.uid)
         self.alive=True
+        directory.register(self)
     async def run(self):
         while self.alive:
             print(f"agent{self.name} taking a turn")
