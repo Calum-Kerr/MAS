@@ -3,8 +3,13 @@
 import random,asyncio,os
 
 EMPTY='.'
-FIRE='F'
-BURNED='B'
+FIRE='*'
+BURNED='#'
+AGENT='@'
+RED='\033[91m'
+GREEN='\033[92m'
+YELLOW='\033[93m'
+RESET='\033[0m'
 
 class Environment():
     def __init__(self,width=10,height=10):
@@ -19,11 +24,15 @@ class Environment():
                 if agents:
                     for a in agents:
                         if a.x==x and a.y==y:
-                            row+='A'
+                            row+=f'{GREEN}@{RESET}'
                             agent_here=True
                             break
                 if not agent_here:
-                    row+=self.grid[y][x]
+                    cell=self.grid[y][x]
+                    if cell==FIRE:
+                        row+=f'{RED}#{RESET}'
+                    else:
+                        row+=cell
             print(row)
 
     def start_fire(self,x,y):
