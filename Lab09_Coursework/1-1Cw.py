@@ -25,6 +25,7 @@ class Environment():
 def main():
     env=Environment(20,10)
     pos=env.place_casualty()
+    print(f"casualty hidden at {pos}")
     env.display()
 
 if __name__=="__main__":
