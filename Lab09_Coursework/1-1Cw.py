@@ -7,7 +7,7 @@ CASUALTY='C'
 SEARCHED='~'
 
 class Environment():
-    def __inti__(self,width=20,height=10):
+    def __init__(self,width=20,height=10):
         self.width=width
         self.height=height
         self.grid=[[EMPTY for _ in range(width)]for _ in range(height)]
