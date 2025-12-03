@@ -16,6 +16,11 @@ class Environment():
             print(''.join(row))
     def clear_screen(self):
         os.system('cls'if os.name=='nt'else'clear')
+    def place_casualty(self,x=None,y=None):
+        if x is None:x=random.randint(0,self.width-1)
+        if y is None:y=random.randint(0,self.height-1)
+        self.frid[y][x]=CASUALTY
+        return(x,y)
 
 def main():
     env=Environment(20,10)
