@@ -18,7 +18,7 @@ class Environment():
         os.system('cls'if os.name=='nt'else'clear')
     def place_casualty(self,x=None,y=None):
         if x is None:x=random.randint(0,self.width-1)
-        if y is None:y=random.randint(0,self.height-1)
+        if y is None:y=random.randint(self.height-2,self.height-1)
         self.grid[y][x]=CASUALTY
         return(x,y)
 
