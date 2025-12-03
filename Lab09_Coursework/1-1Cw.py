@@ -22,6 +22,18 @@ class Environment():
         self.grid[y][x]=CASUALTY
         return(x,y)
 
+def Agent():
+    def __init__(self,name,x,y):
+        self.name=name
+        self.x=x
+        self.y=y
+        self.search_range=1
+    def move_towards(self,target_x,target_y):
+        if self.x<target_x:self.x+=1
+        elif self.x>target_x:self.x-=1
+        elif self.y<target_y:self.y+=1
+        elif self.y>target_y:self.y-=1
+
 def main():
     env=Environment(20,10)
     pos=env.place_casualty()
