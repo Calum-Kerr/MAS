@@ -44,13 +44,22 @@ class Agent():
         elif self.x>target_x:self.x-=1
         elif self.y<target_y:self.y+=1
         elif self.y>target_y:self.y-=1
+    def search(self,env):
+        if env.grid[self.y][self.x]==CASUALTY:
+            print(f"{self.name} found casualty at ({self.x},{self.y})")
+            return True
+        return False
 
 def main():
     env=Environment(20,10)
     pos=env.place_casualty()
     print(f"casualty hidden at {pos}")
-    agents=[Agent("agent0",0,0)]
-    env.display(agents)
+    agent=Agent("agent0",0,0)
+    while not agent.search(env):
+        env.clear_screen()
+        env.display([agent])
+        agent.move_towards(pos[0],pos[1])
+    env.display([agent])
 
 if __name__=="__main__":
     main()
