@@ -60,7 +60,8 @@ async def main():
         env.clear_screen()
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
-        agent.y+=1
+        if agent.y<env.height-1:agent.y+=1
+        else:break
         await asyncio.sleep(0.2)
 
 if __name__=="__main__":
