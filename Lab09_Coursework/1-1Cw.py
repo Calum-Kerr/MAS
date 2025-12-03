@@ -11,9 +11,20 @@ class Environment():
         self.width=width
         self.height=height
         self.grid=[[EMPTY for _ in range(width)]for _ in range(height)]
-    def display(self):
-        for row in self.grid:
-            print(''.join(row))
+    def display(self,agents=None):
+        for y in range(self.height):
+            row=''
+            for x in range(self.width):
+                agent_here=False
+                if agents:
+                    for a in agents:
+                        if a.x==x and a.y==y:
+                            row+='@'
+                            agent_here=True
+                            break
+                if not agent_here:
+                    row+=self.grid[y][x]
+            print(row)
     def clear_screen(self):
         os.system('cls'if os.name=='nt'else'clear')
     def place_casualty(self,x=None,y=None):
@@ -22,7 +33,7 @@ class Environment():
         self.grid[y][x]=CASUALTY
         return(x,y)
 
-def Agent():
+class Agent():
     def __init__(self,name,x,y):
         self.name=name
         self.x=x
@@ -38,7 +49,8 @@ def main():
     env=Environment(20,10)
     pos=env.place_casualty()
     print(f"casualty hidden at {pos}")
-    env.display()
+    agents=[Agent("agent0",0,0)]
+    env.display(agents)
 
 if __name__=="__main__":
     main()
