@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import random,os
+import random,os,asyncio
 
 EMPTY='.'
 CASUALTY='C'
@@ -50,7 +50,7 @@ class Agent():
             return True
         return False
 
-def main():
+async def main():
     env=Environment(20,10)
     pos=env.place_casualty()
     print(f"casualty hidden at {pos}")
@@ -59,7 +59,7 @@ def main():
         env.clear_screen()
         env.display([agent])
         agent.move_towards(pos[0],pos[1])
-    env.display([agent])
+        await asyncio.sleep(0.2)
 
 if __name__=="__main__":
-    main()
+    asyncio.run(main())
