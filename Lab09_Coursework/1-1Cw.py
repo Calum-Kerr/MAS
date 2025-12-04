@@ -56,7 +56,7 @@ class Agent():
                 if 0<=nx<env.width and 0<=ny<env.height:cells.append((nx,ny))
         return cells
     def move_random(self,env):
-        moves=[(1,0),(1,0),(1,0),(0,1),(0,-1),(-1,0)]
+        moves=[(1,0),(0,1),(0,-1),(-1,0)]
         random.shuffle(moves)
         for dx,dy in moves:
             nx,ny=self.x+dx,self.y+dy
@@ -65,7 +65,8 @@ class Agent():
                     self.x=nx
                     self.y=ny
                     return True
-        for dx,dy in [(1,0),(0,1),(0,-1),(-1,0)]:
+        random.shuffle(moves)
+        for dx,dy in moves:
             nx,ny=self.x+dx,self.y+dy
             if 0<=nx<env.width and 0<=ny<env.height:
                 self.x=nx
