@@ -107,7 +107,7 @@ class Bloodhound(Agent):
 async def main():
     env=Environment(300,13)
     pos=env.place_casualty(299,7)
-    agents=[Human("person1",10,3),Human("person2",10,6),Human("person3",10,9),K9("rex",5,5),Bloodhound("max",5,7)]    
+    agents=[Human("calum",10,3),Human("simon",10,6),Human("wells",10,9),K9("rex",5,5),Bloodhound("max",5,7)]
     found=False
     while not found:
         env.clear_screen()
