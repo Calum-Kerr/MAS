@@ -127,7 +127,6 @@ async def main():
                 found=True
                 break
             a.move_random(env)
-        casualty_health-=1
         tick+=1
         if tick%5==0:casualty_health-=1
         if casualty_health<=0:
