@@ -47,7 +47,7 @@ class Agent():
                 found=True
             elif env.grid[y][x]==EMPTY:env.grid[y][x]=SEARCHED
         return found
-    def get_view_cone(self,env,length=5):
+    def get_view_cone(self,env,length=2):
         cells=[]
         for d in range(1,length+1):
             for w in range(-d,d+1):
@@ -59,15 +59,15 @@ async def main():
     env=Environment(300,13)
     pos=env.place_casualty()
     print(f"casualty hidden at {pos}")
-    agent=Agent("agent0",5,0)
+    agent=Agent("agent0",2,0)
     agent.direction=1
     while not agent.search(env):
         env.clear_screen()
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
-        if agent.y<env.height-6:agent.y+=1
+        if agent.y<env.height-2:agent.y+=1
         else:
-            agent.x+=agent.direction*12
+            agent.x+=agent.direction*5
             agent.y=0
             if agent.x>=env.width-10:agent.direction=-1
             elif agent.x<=10:agent.direction=1
