@@ -54,30 +54,31 @@ class Agent():
                 nx,ny=self.x+w,self.y+d
                 if 0<=nx<env.width and 0<=ny<env.height:cells.append((nx,ny))
         return cells
-    def find_unsearched(self,env):
-        for y in range(self.y+1,env.height):
-            for x in range(env.width):
-                if env.grid[y][x]==EMPTY:return (x,y)
-        for y in range(env.height):
-            for x in range(env.width):
-                if env.grid[y][x]==EMPTY:return (x,y)
-        return None
+    def move_random(self,env):
+        moves=[(0,1),(0,-1),(1,0),(-1,0)]
+        random.shuffle(moves)
+        for dx,dy in moves:
+            nx,ny=self.x+dx,self.y+dy
+            if 0<=nx<env.width and 0<=ny<env.height:
+                if env.grid[ny][nx]!=SEARCHED:
+                    self.x=nx
+                    self.y=ny
+                    return True
+        return False
 
 async def main():
     env=Environment(300,13)
     pos=env.place_casualty()
     print(f"casualty hidden at {pos}")
-    agent=Agent("agent0",2,0)
-    agent.direction=1
+    agent=Agent("agent0",2,6)
+    direction=1
     found=False
     while not found:
         env.clear_screen()
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
-        target=agent.find_unsearched(env)
-        if target:agent.move_towards(target[0],target[1])
-        else:break
         found=agent.search(env)
+        if not agent.move_random(env):break
         await asyncio.sleep(0.05)
 
 if __name__=="__main__":
