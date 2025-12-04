@@ -39,19 +39,18 @@ class Agent():
         elif self.y<target_y:self.y+=1
         elif self.y>target_y:self.y-=1
     def search(self,env):
+        if env.grid[self.y][self.x]==EMPTY:env.grid[self.y][self.x]=SEARCHED
         cone=self.get_view_cone(env)
-        found=False
         for x,y in cone:
             if env.grid[y][x]==CASUALTY:
-                print(f"{self.name} found casualty at ({self.x},{self.y})")
-                found=True
-            elif env.grid[y][x]==EMPTY:env.grid[y][x]=SEARCHED
-        return found
+                print(f"{self.name} found casualty at ({x},{y})")
+                return True
+        return False
     def get_view_cone(self,env,length=2):
         cells=[]
-        for d in range(1,length+1):
-            for w in range(-d,d+1):
-                nx,ny=self.x+w,self.y+d
+        for dy in range(-length,length+1):
+            for dx in range(-length,length+1):
+                nx,ny=self.x+dx,self.y+dy
                 if 0<=nx<env.width and 0<=ny<env.height:cells.append((nx,ny))
         return cells
     def move_random(self,env):
@@ -60,7 +59,7 @@ class Agent():
         for dx,dy in moves:
             nx,ny=self.x+dx,self.y+dy
             if 0<=nx<env.width and 0<=ny<env.height:
-                if env.grid[ny][nx]!=SEARCHED:
+                if env.grid[ny][nx]==EMPTY or env.grid[ny][nx]==CASUALTY:
                     self.x=nx
                     self.y=ny
                     return True
@@ -77,8 +76,8 @@ async def main():
         env.clear_screen()
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
-        found=agent.search(env)
         if not agent.move_random(env):break
+        found=agent.search(env)
         await asyncio.sleep(0.05)
 
 if __name__=="__main__":
