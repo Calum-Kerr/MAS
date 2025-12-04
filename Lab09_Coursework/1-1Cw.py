@@ -55,15 +55,13 @@ class Agent():
                 if 0<=nx<env.width and 0<=ny<env.height:cells.append((nx,ny))
         return cells
     def find_unsearched(self,env):
-        nearest=None
-        min_dist=float('inf')
+        for y in range(self.y+1,env.height):
+            for x in range(env.width):
+                if env.grid[y][x]==EMPTY:return (x,y)
         for y in range(env.height):
             for x in range(env.width):
-                if env.grid[y][x]==EMPTY:dist=abs(x-self.x)+abs(y-self.y)
-                if dist<min_dist:
-                    min_dist=dist
-                    nearest=(x,y)
-        return nearest
+                if env.grid[y][x]==EMPTY:return (x,y)
+        return None
 
 async def main():
     env=Environment(300,13)
