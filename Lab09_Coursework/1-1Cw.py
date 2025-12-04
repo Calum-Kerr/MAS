@@ -71,7 +71,7 @@ async def main():
             agent.y=0
             if agent.x>=env.width-10:agent.direction=-1
             elif agent.x<=10:agent.direction=1
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.05)
 
 if __name__=="__main__":
     asyncio.run(main())
