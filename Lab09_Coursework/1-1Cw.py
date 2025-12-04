@@ -114,6 +114,7 @@ async def main():
     pos=env.place_casualty(299,7)
     agents=[Human("calum",10,3),Human("simon",10,6),Human("wells",10,9),K9("rex",5,5),Bloodhound("max",5,7)]
     casualty_health=300
+    tick=0
     found=False
     while not found:
         env.clear_screen()
@@ -127,6 +128,8 @@ async def main():
                 break
             a.move_random(env)
         casualty_health-=1
+        tick+=1
+        if tick%5==0:casualty_health-=1
         if casualty_health<=0:
             env.grid[pos[1]][pos[0]]=DEAD
             print("casualty died!")
