@@ -6,6 +6,9 @@ EMPTY='.'
 CASUALTY='C'
 SEARCHED='~'
 DEAD='X'
+RED='\033[91m'
+GREEN='\033[92m'
+RESET='\033[0m'
 
 class Environment():
     def __init__(self,width=300,height=13):
@@ -136,6 +139,10 @@ async def main():
             print("casualty died!")
             break
         await asyncio.sleep(0.05)
+    env.clear_screen()
+    env.display(agents)
+    if found:print(f"{GREEN}RESCUED! time remeaning:{time_left:.1f}s{RESET}")
+    else: print(f"{RED}FAILED! bunch of idiots... casualty is dead :({RESET}")
 
 if __name__=="__main__":
     asyncio.run(main())
