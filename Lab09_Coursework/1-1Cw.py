@@ -5,6 +5,7 @@ import random,os,asyncio
 EMPTY='.'
 CASUALTY='C'
 SEARCHED='~'
+DEAD='X'
 
 class Environment():
     def __init__(self,width=300,height=13):
