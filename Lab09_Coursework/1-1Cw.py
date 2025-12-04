@@ -79,6 +79,7 @@ async def main():
         target=agent.find_unsearched(env)
         if target:agent.move_towards(target[0],target[1])
         else:break
+        found+agent.search(env)
         await asyncio.sleep(0.05)
 
 if __name__=="__main__":
