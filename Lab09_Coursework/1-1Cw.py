@@ -72,14 +72,14 @@ async def main():
     agent=Agent("agent0",2,0)
     agent.direction=1
     found=False
-    while not agent.search(env):
+    while not found:
         env.clear_screen()
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
         target=agent.find_unsearched(env)
         if target:agent.move_towards(target[0],target[1])
         else:break
-        found+agent.search(env)
+        found=agent.search(env)
         await asyncio.sleep(0.05)
 
 if __name__=="__main__":
