@@ -107,14 +107,19 @@ class Bloodhound(Agent):
 async def main():
     env=Environment(300,13)
     pos=env.place_casualty(299,7)
-    agent=Agent("agent0",2,6)
+    agents=[Human("person1",10,3),Human("person2",10,6),Human("person3",10,9),K9("rex",5,5),Bloodhound("max",5,7)]    
     found=False
     while not found:
         env.clear_screen()
-        cone=agent.get_view_cone(env)
-        env.display([agent],cone)
-        if not agent.move_random(env):break
-        found=agent.search(env)
+        highlights=[]
+        for a in agents:
+            highlights+=a.get_view_cone(env)
+        env.display(agents,highlights)
+        for a in agents:
+            if a.search(env):
+                found=True
+                break
+            a.move_random(env)
         await asyncio.sleep(0.05)
 
 if __name__=="__main__":
