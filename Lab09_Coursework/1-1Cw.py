@@ -66,11 +66,11 @@ async def main():
         env.display([agent],cone)
         if agent.y<env.height-1:agent.y+=1
         else:
-            if agent.x>0 and env.grid[0][agent.x-10]==EMPTY:
+            if agent.x>10 and env.grid[0][agent.x-10]==EMPTY:
                 agent.x-=10
                 agent.y=0
             elif agent.x<env.width-1:
-                agent.x+10
+                agent.x+=10
                 agent.y=0
         await asyncio.sleep(0.2)
 
