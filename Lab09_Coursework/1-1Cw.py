@@ -122,6 +122,8 @@ async def main():
         for a in agents:
             highlights+=a.get_view_cone(env)
         env.display(agents,highlights)
+        time_left=(casualty_health*5*0.05)
+        print(f"Casualty health:{casualty_health} | Time left: {time_left:.1f}s")
         for a in agents:
             if a.search(env):
                 found=True
