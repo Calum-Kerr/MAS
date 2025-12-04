@@ -41,11 +41,13 @@ class Agent():
     def search(self,env):
         if env.grid[self.y][self.x]==EMPTY:env.grid[self.y][self.x]=SEARCHED
         cone=self.get_view_cone(env)
+        found=False
         for x,y in cone:
             if env.grid[y][x]==CASUALTY:
                 print(f"{self.name} found casualty at ({x},{y})")
-                return True
-        return False
+                found=True
+            elif env.grid[y][x]==EMPTY:env.grid[y][x]=SEARCHED
+        return found
     def get_view_cone(self,env,length=2):
         cells=[]
         for dy in range(-length,length+1):
