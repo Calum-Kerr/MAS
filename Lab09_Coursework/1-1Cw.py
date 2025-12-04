@@ -40,11 +40,13 @@ class Agent():
         elif self.y>target_y:self.y-=1
     def search(self,env):
         cone=self.get_view_cone(env)
+        found=False
         for x,y in cone:
             if env.grid[y][x]==CASUALTY:
                 print(f"{self.name} found casualty at ({self.x},{self.y})")
-                return True
-        return False
+                found=True
+            elif env.grid[y][x]==EMPTY:env.grid[y][x]==SEARCHED
+        return found
     def get_view_cone(self,env,length=5):
         cells=[]
         for d in range(1,length+1):
@@ -63,7 +65,13 @@ async def main():
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
         if agent.y<env.height-1:agent.y+=1
-        else:break
+        else:
+            if agent.x>0 and env.grid[0][agent.x-10]==EMPTY:
+                agent.x-=10
+                agent.y=0
+            elif agent.x<env.width-1:
+                agent.x+10
+                agent.y=0
         await asyncio.sleep(0.2)
 
 if __name__=="__main__":
