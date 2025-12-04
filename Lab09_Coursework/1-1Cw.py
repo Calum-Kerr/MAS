@@ -63,6 +63,13 @@ class Agent():
                     self.x=nx
                     self.y=ny
                     return True
+        random.shuffle(moves)
+        for dx,dy in moves:
+            nx,ny=self.x+dx,self.y+dy
+            if 0<=nx<env.width and 0<=ny<env.height:
+                self.x=nx
+                self.y=ny
+                return True
         return False
 
 async def main():
