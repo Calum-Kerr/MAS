@@ -56,22 +56,31 @@ class Agent():
                 if 0<=nx<env.width and 0<=ny<env.height:cells.append((nx,ny))
         return cells
     def move_random(self,env):
+        if not hasattr(self,'visited'):self.visited=set()
+        if not hasattr(self,'target'):self.target=None
+        self.visited.add((self.x,self.y))
+        if self.target:
+            tx,ty=self.target
+            if self.x<tx:self.x+=1
+            elif self.x>tx:self.x-=1
+            elif self.y<ty:self.y+=1
+            elif self.y>ty:self.y-=1
+            if self.x==tx and self.y==ty:self.target=None
+            return True
         moves=[(1,0),(0,1),(0,-1),(-1,0)]
         random.shuffle(moves)
         for dx,dy in moves:
             nx,ny=self.x+dx,self.y+dy
             if 0<=nx<env.width and 0<=ny<env.height:
-                if env.grid[ny][nx]==EMPTY or env.grid[ny][nx]==CASUALTY:
+                if (nx,ny) not in self.visited:
                     self.x=nx
                     self.y=ny
                     return True
-        random.shuffle(moves)
-        for dx,dy in moves:
-            nx,ny=self.x+dx,self.y+dy
-            if 0<=nx<env.width and 0<=ny<env.height:
-                self.x=nx
-                self.y=ny
-                return True
+        for y in range(env.height):
+            for x in range(env.width):
+                if (x,y) not in self.visited and env.grid[y][x]!=SEARCHED:
+                    self.target=(x,y)
+                    return True
         return False
 
 async def main():
