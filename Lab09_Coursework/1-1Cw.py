@@ -7,7 +7,7 @@ CASUALTY='C'
 SEARCHED='~'
 
 class Environment():
-    def __init__(self,width=21,height=10):
+    def __init__(self,width=300,height=13):
         self.width=width
         self.height=height
         self.grid=[[EMPTY for _ in range(width)]for _ in range(height)]
@@ -54,10 +54,10 @@ class Agent():
         return cells
 
 async def main():
-    env=Environment(21,10)
+    env=Environment(300,13)
     pos=env.place_casualty()
     print(f"casualty hidden at {pos}")
-    agent=Agent("agent0",11,0)
+    agent=Agent("agent0",1,0)
     while not agent.search(env):
         env.clear_screen()
         cone=agent.get_view_cone(env)
