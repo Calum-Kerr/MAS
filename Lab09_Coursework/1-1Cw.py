@@ -71,6 +71,7 @@ async def main():
     print(f"casualty hidden at {pos}")
     agent=Agent("agent0",2,0)
     agent.direction=1
+    found=False
     while not agent.search(env):
         env.clear_screen()
         cone=agent.get_view_cone(env)
