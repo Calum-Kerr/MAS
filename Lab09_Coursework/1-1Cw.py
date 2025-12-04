@@ -54,7 +54,8 @@ class Agent():
                 found=True
             elif env.grid[y][x]==EMPTY:env.grid[y][x]=SEARCHED
         return found
-    def get_view_cone(self,env,length=1):
+    def get_view_cone(self,env):
+        length=getattr(self,'cone_length',1)
         cells=[]
         for dy in range(-length,length+1):
             for dx in range(-length,length+1):
@@ -93,16 +94,19 @@ class Human(Agent):
     def __init__(self,name,x,y):
         super().__init__(name,x,y)
         self.symbol='P'
+        self.cone_length=1
 
 class K9(Agent):
     def __init__(self,name,x,y):
         super().__init__(name,x,y)
         self.symbol='D'
+        self.cone_length=2
 
 class Bloodhound(Agent):
     def __init__(self,name,x,y):
         super().__init__(name,x,y)
         self.symbol='B'
+        self.cone_length=3
 
 async def main():
     env=Environment(300,13)
