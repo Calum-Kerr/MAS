@@ -48,7 +48,7 @@ class Agent():
                 found=True
             elif env.grid[y][x]==EMPTY:env.grid[y][x]=SEARCHED
         return found
-    def get_view_cone(self,env,length=2):
+    def get_view_cone(self,env,length=1):
         cells=[]
         for dy in range(-length,length+1):
             for dx in range(-length,length+1):
@@ -56,7 +56,7 @@ class Agent():
                 if 0<=nx<env.width and 0<=ny<env.height:cells.append((nx,ny))
         return cells
     def move_random(self,env):
-        moves=[(0,1),(0,-1),(1,0),(-1,0)]
+        moves=[(1,0),(1,0),(1,0),(0,1),(0,-1),(-1,0)]
         random.shuffle(moves)
         for dx,dy in moves:
             nx,ny=self.x+dx,self.y+dy
@@ -65,8 +65,7 @@ class Agent():
                     self.x=nx
                     self.y=ny
                     return True
-        random.shuffle(moves)
-        for dx,dy in moves:
+        for dx,dy in [(1,0),(0,1),(0,-1),(-1,0)]:
             nx,ny=self.x+dx,self.y+dy
             if 0<=nx<env.width and 0<=ny<env.height:
                 self.x=nx
@@ -76,10 +75,8 @@ class Agent():
 
 async def main():
     env=Environment(300,13)
-    pos=env.place_casualty()
-    print(f"casualty hidden at {pos}")
+    pos=env.place_casualty(299,7)
     agent=Agent("agent0",2,6)
-    direction=1
     found=False
     while not found:
         env.clear_screen()
