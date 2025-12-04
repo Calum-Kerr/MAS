@@ -59,12 +59,12 @@ async def main():
     env=Environment(300,13)
     pos=env.place_casualty()
     print(f"casualty hidden at {pos}")
-    agent=Agent("agent0",1,0)
+    agent=Agent("agent0",5,0)
     while not agent.search(env):
         env.clear_screen()
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
-        if agent.y<env.height-1:agent.y+=1
+        if agent.y<env.height-6:agent.y+=1
         else:
             if agent.x>10 and env.grid[0][agent.x-10]==EMPTY:
                 agent.x-=10
