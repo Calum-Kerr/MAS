@@ -15,7 +15,13 @@ class Environment():
         for y in range(self.height):
             row=''
             for x in range(self.width):
-                if agents and any(a.x==x and a.y==y for a in agents):row+='P'
+                agent_here=None
+                if agents:
+                    for a in agents:
+                        if a.x==x and a.y==y:
+                            agent_here=a
+                            break
+                if agent_here:row+=getattr(agent_here,'symbol','P')
                 elif(x,y) in highlights:row+='*'
                 else:row+=self.grid[y][x]
             print(row)
@@ -82,6 +88,21 @@ class Agent():
                     self.target=(x,y)
                     return True
         return False
+
+class Human(Agent):
+    def __init__(self,name,x,y):
+        super().__init__(name,x,y)
+        self.symbol='P'
+
+class K9(Agent):
+    def __init__(self,name,x,y):
+        super().__init__(name,x,y)
+        self.symbol='D'
+
+class Bloodhound(Agent):
+    def __init__(self,name,x,y):
+        super().__init__(name,x,y)
+        self.symbol='B'
 
 async def main():
     env=Environment(300,13)
