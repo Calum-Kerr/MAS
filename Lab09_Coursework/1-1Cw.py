@@ -60,18 +60,17 @@ async def main():
     pos=env.place_casualty()
     print(f"casualty hidden at {pos}")
     agent=Agent("agent0",5,0)
+    agent.direction=1
     while not agent.search(env):
         env.clear_screen()
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
         if agent.y<env.height-6:agent.y+=1
         else:
-            if agent.x>10 and env.grid[0][agent.x-10]==EMPTY:
-                agent.x-=10
-                agent.y=0
-            elif agent.x<env.width-1:
-                agent.x+=10
-                agent.y=0
+            agent.x+=agent.direction*12
+            agent.y=0
+            if agent.x>=env.width-10:agent.direction=-1
+            elif agent.x<=10:agent.direction=1
         await asyncio.sleep(0.2)
 
 if __name__=="__main__":
