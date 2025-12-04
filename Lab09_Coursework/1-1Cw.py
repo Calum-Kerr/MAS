@@ -54,6 +54,16 @@ class Agent():
                 nx,ny=self.x+w,self.y+d
                 if 0<=nx<env.width and 0<=ny<env.height:cells.append((nx,ny))
         return cells
+    def find_unsearched(self,env):
+        nearest=None
+        min_dist=float('inf')
+        for y in range(env.height):
+            for x in range(env.width):
+                if env.grid[y][x]==EMPTY:dist=abs(x-self.x)+abs(y-self.y)
+                if dist<min_dist:
+                    min_dist=dist
+                    nearest=(x,y)
+        return nearest
 
 async def main():
     env=Environment(300,13)
@@ -65,12 +75,9 @@ async def main():
         env.clear_screen()
         cone=agent.get_view_cone(env)
         env.display([agent],cone)
-        if agent.y<env.height-2:agent.y+=1
-        else:
-            agent.x+=agent.direction*5
-            agent.y=0
-            if agent.x>=env.width-10:agent.direction=-1
-            elif agent.x<=10:agent.direction=1
+        target=agent.find_unsearched(env)
+        if target:agent.move_towards(target[0],target[1])
+        else:break
         await asyncio.sleep(0.05)
 
 if __name__=="__main__":
