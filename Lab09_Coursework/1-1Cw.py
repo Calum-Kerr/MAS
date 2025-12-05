@@ -116,24 +116,24 @@ class Human(Agent):
         super().__init__(name,x,y)
         self.symbol='P'
         self.cone_length=1
-        self.stamina=500
-        self.max_stamina=500
+        self.stamina=650
+        self.max_stamina=650
 
 class K9(Agent):
     def __init__(self,name,x,y):
         super().__init__(name,x,y)
         self.symbol='D'
         self.cone_length=2
-        self.stamina=1000
-        self.max_stamina=1000
+        self.stamina=1300
+        self.max_stamina=1300
 
 class Bloodhound(Agent):
     def __init__(self,name,x,y):
         super().__init__(name,x,y)
         self.symbol='B'
         self.cone_length=3
-        self.stamina=750
-        self.max_stamina=750
+        self.stamina=975
+        self.max_stamina=975
 
 async def display_loop(env,agents,shared):
     while not shared['found'] and shared['health']>0:
