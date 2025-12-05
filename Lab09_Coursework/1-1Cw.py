@@ -145,6 +145,8 @@ async def display_loop(env,agents,shared):
         print(f"Casualty health:{shared['health']} | Time left: {time_left:.1f}s")
         stats=' | '.join([f"{a.name}:{a.cells_searched}" for a in sorted(agents,key=lambda x:x.cells_searched,reverse=True)])
         print(f"Cells searched: {stats}")
+        stamina=' | '.join([f"{a.name}:{a.stamina}/{a.max_stamina}" for a in agents])
+        print(f"Stamina: {stamina}")
         shared['tick']+=1
         if shared['tick']%5==0:shared['health']-=1
         await asyncio.sleep(0.05)
