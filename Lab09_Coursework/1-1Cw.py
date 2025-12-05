@@ -137,7 +137,10 @@ async def main():
     pos=env.place_casualty(299,7)
     agents=[Human("calum",10,3),Human("simon",10,6),Human("wells",10,9),K9("rex",5,5),Bloodhound("max",5,7)]
     shared={'found':False,'finder':None,'health':300,'tick':0}
-    await asyncio.gather(display_loop(env,agents,shared),*[a.run(env,shared) for a in agents])
+    tasks=[asyncio.create_task(display_loop(env,agents,shared))]
+    tasks+=[asyncio.create_task(a.run(env,shared)) for a in agents]
+    done,pending=await asyncio.wait(tasks,return_when=asyncio.FIRST_COMPLETED)
+    for t in pending:t.cancel()
     env.clear_screen()
     env.display(agents)
     time_left=(shared['health']*5*0.05)
