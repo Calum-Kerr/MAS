@@ -93,6 +93,14 @@ class Agent():
                     self.target=(x,y)
                     return True
         return False
+    async def run(self,env,shared):
+        while not shared['found']:
+            if self.search(env):
+                shared['found']=True
+                shared['finder']=self.name
+                return
+            self.move_random(env)
+            await asyncio.sleep(0.05)
 
 class Human(Agent):
     def __init__(self,name,x,y):
@@ -112,36 +120,28 @@ class Bloodhound(Agent):
         self.symbol='B'
         self.cone_length=3
 
+async def display_loop(env,agents,shared):
+    while not shared['found'] and shared['health']>0:
+        env.clear_screen()
+        highlights=[]
+        for a in agents:highlights+=a.get_view_cone(env)
+        env.display(agents,highlights)
+        time_left=(shared['health']*5*0.05)
+        print(f"Casualty health:{shared['health']} | Time left: {time_left:.1f}s")
+        shared['tick']+=1
+        if shared['tick']%5==0:shared['health']-=1
+        await asyncio.sleep(0.05)
+
 async def main():
     env=Environment(300,13)
     pos=env.place_casualty(299,7)
     agents=[Human("calum",10,3),Human("simon",10,6),Human("wells",10,9),K9("rex",5,5),Bloodhound("max",5,7)]
-    casualty_health=300
-    tick=0
-    found=False
-    while not found:
-        env.clear_screen()
-        highlights=[]
-        for a in agents:
-            highlights+=a.get_view_cone(env)
-        env.display(agents,highlights)
-        time_left=(casualty_health*5*0.05)
-        print(f"Casualty health:{casualty_health} | Time left: {time_left:.1f}s")
-        for a in agents:
-            if a.search(env):
-                found=True
-                break
-            a.move_random(env)
-        tick+=1
-        if tick%5==0:casualty_health-=1
-        if casualty_health<=0:
-            env.grid[pos[1]][pos[0]]=DEAD
-            print("casualty died!")
-            break
-        await asyncio.sleep(0.05)
+    shared={'found':False,'finder':None,'health':300,'tick':0}
+    await asyncio.gather(display_loop(env,agents,shared),*[a.run(env,shared) for a in agents])
     env.clear_screen()
     env.display(agents)
-    if found:print(f"{GREEN}RESCUED! time remeaning:{time_left:.1f}s{RESET}")
+    time_left=(shared['health']*5*0.05)
+    if shared['found']:print(f"{GREEN}RESCUED by {shared['finder']}! time remaining:{time_left:.1f}s{RESET}")
     else: print(f"{RED}FAILED! bunch of idiots... casualty is dead :({RESET}")
 
 if __name__=="__main__":
