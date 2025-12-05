@@ -44,6 +44,8 @@ class Agent():
         self.y=y
         self.search_range=1
         self.cells_searched=0
+        self.stamina=100
+        self.max_stamina=100
     def move_towards(self,target_x,target_y):
         if self.x<target_x:self.x+=1
         elif self.x>target_x:self.x-=1
@@ -72,6 +74,8 @@ class Agent():
                 if 0<=nx<env.width and 0<=ny<env.height:cells.append((nx,ny))
         return cells
     def move_random(self,env):
+        if self.stamina<=0:return False
+        self.stamina-=1
         if not hasattr(self,'visited'):self.visited=set()
         if not hasattr(self,'target'):self.target=None
         self.visited.add((self.x,self.y))
@@ -112,18 +116,24 @@ class Human(Agent):
         super().__init__(name,x,y)
         self.symbol='P'
         self.cone_length=1
+        self.stamina=100
+        self.max_stamina=100
 
 class K9(Agent):
     def __init__(self,name,x,y):
         super().__init__(name,x,y)
         self.symbol='D'
         self.cone_length=2
+        self.stamina=200
+        self.max_stamina=200
 
 class Bloodhound(Agent):
     def __init__(self,name,x,y):
         super().__init__(name,x,y)
         self.symbol='B'
         self.cone_length=3
+        self.stamina=150
+        self.max_stamina=150
 
 async def display_loop(env,agents,shared):
     while not shared['found'] and shared['health']>0:
