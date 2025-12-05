@@ -43,20 +43,25 @@ class Agent():
         self.x=x
         self.y=y
         self.search_range=1
+        self.cells_searched=0
     def move_towards(self,target_x,target_y):
         if self.x<target_x:self.x+=1
         elif self.x>target_x:self.x-=1
         elif self.y<target_y:self.y+=1
         elif self.y>target_y:self.y-=1
     def search(self,env):
-        if env.grid[self.y][self.x]==EMPTY:env.grid[self.y][self.x]=SEARCHED
+        if env.grid[self.y][self.x]==EMPTY:
+            env.grid[self.y][self.x]=SEARCHED
+            self.cells_searched+=1
         cone=self.get_view_cone(env)
         found=False
         for x,y in cone:
             if env.grid[y][x]==CASUALTY:
                 print(f"{self.name} found casualty at ({x},{y})")
                 found=True
-            elif env.grid[y][x]==EMPTY:env.grid[y][x]=SEARCHED
+            elif env.grid[y][x]==EMPTY:
+                env.grid[y][x]=SEARCHED
+                self.cells_searched+=1
         return found
     def get_view_cone(self,env):
         length=getattr(self,'cone_length',1)
@@ -146,6 +151,8 @@ async def main():
     time_left=(shared['health']*5*0.05)
     if shared['found']:print(f"{GREEN}RESCUED by {shared['finder']}! time remaining:{time_left:.1f}s{RESET}")
     else: print(f"{RED}FAILED! bunch of idiots... casualty is dead :({RESET}")
+    print("\nSearch stats:")
+    for a in sorted(agents,key=lambda x:x.cells_searched,reverse=True):print(f"  {a.name}: {a.cells_searched} cells")
 
 if __name__=="__main__":
     asyncio.run(main())
